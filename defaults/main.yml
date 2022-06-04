@@ -1,0 +1,20 @@
+---
+
+# archive url
+rainloop_url: 'https://www.rainloop.net/repository/webmail/rainloop-community-latest.zip'
+
+# local file
+rainloop_file: '{{ rainloop_tmpdir }}/rainloop-community-latest.zip'
+
+# 
+rainloop_tmpdir: /tmp
+
+# temporary directory
+rainloop_tmp: "{{ rainloop_tmpdir }}/rainloop-tmp"
+
+# OS user/group
+rainloop_user: "{{ 'apache' if rainloop_web_server == 'apache' else 'www-data' }}"
+rainloop_group: "{{ 'apache' if rainloop_web_server == 'apache' else 'www-data' }}"
+
+# Restrict access to local loopback
+rainloop_restrict_access: false

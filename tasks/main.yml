@@ -1,0 +1,129 @@
+---
+
+- name: Assertions
+  assert:
+    that:
+      - rainloop_path is defined
+      - rainloop_log is defined
+
+- name: Load variables based on OS type
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_distribution }}.yml"
+        - "family-{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+        - "family-{{ ansible_os_family }}.yml"
+        - default.yml
+      paths:
+        - "vars"
+
+- name: Install packages
+  package:
+    name: "{{ rainloop_packages }}"
+    state: present
+
+- name: Download the latest version
+  get_url:
+    url: "{{ rainloop_url }}"
+    dest: "{{ rainloop_file }}"
+  check_mode: no
+  changed_when: false
+
+- name: Delete temporary directory
+  file:
+    path: "{{ rainloop_tmp }}"
+    state: absent
+  check_mode: no
+  changed_when: false
+
+- name: Create temporary extract directory
+  file:
+    path: "{{ rainloop_tmp }}"
+    state: directory
+    mode: 0755
+  check_mode: no
+  changed_when: false
+
+- name: Extract the software
+  unarchive:
+    src: "{{ rainloop_file }}"
+    dest: "{{ rainloop_tmp }}"
+    owner: "{{ rainloop_user }}"
+    group: "{{ rainloop_group }}"
+    mode: "0755"
+    remote_src: true
+  check_mode: no
+  changed_when: false
+
+- name: Create rainloop directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ rainloop_user }}"
+    group: "{{ rainloop_group }}"
+    mode: "0755"
+  loop:
+    - "{{ rainloop_path }}"
+    - "{{ rainloop_log }}"
+  tags: molecule-idempotence-notest
+
+- name: Rsync data
+  synchronize:
+    src: "{{ rainloop_tmp }}/"
+    dest: "{{ rainloop_path }}"
+    rsync_opts:
+      - "--omit-dir-times"
+  delegate_to: "{{ inventory_hostname }}"
+  notify: Restarting web service
+  tags: molecule-idempotence-notest
+
+- name: Set SELinux labels
+  sefcontext:
+    target: '{{ item.target }}'
+    setype: '{{ item.setype }}'
+    state: present
+  with_items:
+    - { target: '{{ rainloop_path }}(/.*)?', setype: httpd_sys_content_t }
+    - { target: '{{ rainloop_path }}/data(/.*)?', setype: httpd_sys_rw_content_t }
+  notify: Restarting web service
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_facts.selinux.status == 'enabled'
+
+- name: Configure rainloop using apache vhost
+  template:
+    src: templates/apache_vhost.conf.j2
+    dest: "{{ apache_conf_dir }}/{{ rainloop_vhost }}.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restarting web service
+  when: rainloop_web_server == 'apache'
+
+- name: Configure rainloop using nginx vhost
+  template:
+    src: templates/nginx_vhost.conf.j2
+    dest: "{{ nginx_confd_path }}/{{ rainloop_vhost }}.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restarting web service
+  when: rainloop_web_server == 'nginx'
+
+# - name: Update admin password
+#   lineinfile:
+#     path: "{{ rainloop_path }}/data/_data_/_default_/configs/application.ini"
+#     line: "admin_password = \"{{ rainloop_admin_password }}\""
+#     regexp: "^admin_password =.*"
+
+- name: Remove temporary directory {{ rainloop_tmp }}
+  file:
+    path: "{{ rainloop_tmp }}"
+    state: absent
+  check_mode: no
+  changed_when: false
+
+- name: Force all handlers to run now
+  meta: flush_handlers

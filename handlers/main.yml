@@ -1,0 +1,6 @@
+---
+
+- name: Restarting web service
+  service:
+    name: "{{ rainloop_web_service }}"
+    state: restarted
