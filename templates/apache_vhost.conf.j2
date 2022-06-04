@@ -1,0 +1,42 @@
+<VirtualHost *:80>
+
+  ServerName {{ rainloop_vhost }}
+  Redirect permanent / https://{{ rainloop_vhost }}
+
+</VirtualHost>
+
+<VirtualHost *:443>
+
+  ServerName   {{ rainloop_vhost }}
+  ServerAlias  {{ rainloop_vhost }}
+  DocumentRoot {{ apache_vhostdir }}/{{ rainloop_vhost }}/public_html
+  ErrorLog     {{ apache_vhostdir }}/{{ rainloop_vhost }}/log/error.log
+  CustomLog    {{ apache_vhostdir }}/{{ rainloop_vhost }}/log/access.log combined
+  SSLEngine    on
+  SSLProtocol {{ apache_ssl_settings.SSLProtocol }}
+  SSLCipherSuite {{ apache_ssl_settings.SSLCipherSuite }}
+  SSLHonorCipherOrder {{ apache_ssl_settings.SSLHonorCipherOrder }}
+  SSLCertificateFile {{ rainloop_ssl_crt }}
+  SSLCertificateKeyFile {{ rainloop_ssl_key }}
+  SSLCertificateChainFile {{ rainloop_ssl_chain }}
+
+  <Directory />
+    Options +Indexes +FollowSymLinks +ExecCGI
+    AllowOverride All
+    Order deny,allow
+    Allow from all
+    Require all granted
+  </Directory>
+
+  <Directory /admin/>
+    Order Allow,Deny
+    Deny from all
+  </Directory>
+
+  <Directory /data/>
+    Order Allow,Deny
+    Deny from all
+  </Directory>
+
+
+</VirtualHost>
