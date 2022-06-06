@@ -6,7 +6,7 @@ rainloop_url: 'https://www.rainloop.net/repository/webmail/rainloop-community-la
 # local file
 rainloop_file: '{{ rainloop_tmpdir }}/rainloop-community-latest.zip'
 
-# 
+# directory to put temporary download file into
 rainloop_tmpdir: /tmp
 
 # temporary directory
@@ -18,3 +18,9 @@ rainloop_group: "{{ 'apache' if rainloop_web_server == 'apache' else 'www-data' 
 
 # Restrict access to local loopback
 rainloop_restrict_access: false
+
+# dict of rainloop settings
+rainloop_settings: {}
+
+# Default domain template
+rainloop_domain_template: domain.j2
