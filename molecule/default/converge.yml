@@ -14,6 +14,7 @@
     nginx_root: /var/www/webmail.example.com/public_html
     nginx_logdir: /var/www/webmail.example.com/log
     rainloop_vhost: webmail.example.com
+    rainloop_domain: example.com
     rainloop_ssl_key: "{{ openssl_server_key }}"
     rainloop_ssl_crt: "{{ openssl_server_crt }}"
     rainloop_ssl_chain: "{{ openssl_server_crt }}"
