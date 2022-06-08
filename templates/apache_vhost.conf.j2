@@ -5,10 +5,6 @@
 
 </VirtualHost>
 
-    root                {{ rainloop_path }};
-    access_log          {{ rainloop_log }}/access.log;
-    error_log           {{ rainloop_log }}/error.log;
-
 <VirtualHost *:443>
 
   ServerName   {{ rainloop_vhost }}
