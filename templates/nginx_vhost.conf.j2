@@ -1,16 +1,16 @@
 server {
 
     listen              443 ssl;
-    server_name         {{ nginx_server_name }};
+    server_name         {{ rainloop_vhost }};
 
-    ssl_certificate     {{ nginx_ssl_crt }};
-    ssl_certificate_key {{ nginx_ssl_key }};
+    ssl_certificate     {{ rainloop_ssl_crt }};
+    ssl_certificate_key {{ rainloop_ssl_key }};
     ssl_protocols       TLSv1.2 TLSv1.3;
     ssl_ciphers         HIGH:!aNULL:!MD5;
 
-    root                {{ nginx_root }};
-    access_log          {{ nginx_logdir }}/access.log;
-    error_log           {{ nginx_logdir }}/error.log;
+    root                {{ rainloop_path }};
+    access_log          {{ rainloop_log }}/access.log;
+    error_log           {{ rainloop_log }}/error.log;
 
     index               index.php;
 
@@ -28,7 +28,7 @@ server {
         fastcgi_split_path_info ^(.+\.php)(.*)$;
         fastcgi_keep_conn on;
         include /etc/nginx/fastcgi_params;
-        fastcgi_pass unix:{{ nginx_php_socket }};
+        fastcgi_pass unix:{{ rainloop_php_socket }};
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
 
@@ -37,7 +37,7 @@ server {
     }
 
     location ^~ /data {
-      deny all;
+        deny all;
     }
 
 }
