@@ -114,26 +114,35 @@
   notify: Restarting web service
   when: rainloop_web_server == 'nginx'
 
-- name: Update global settings
-  lineinfile:
+- name: Check if initial config is done
+  stat:
     path: "{{ rainloop_path }}/data/_data_/_default_/configs/application.ini"
-    line: >-
-      {% if item.value is search('^(On|Off)$') %}
-      {{ item.key }} = {{ item.value }}
-      {% else %}
-      {{ item.key }} = "{{ item.value }}"
-      {% endif %}
-    regexp: "^{{ item.key }} =.*"
-  loop: "{{ rainloop_settings | dict2items }}"
+  register: _app_ini
 
-- name: Update domain settings
-  template:
-    src: "{{ rainloop_domain_template }}"
-    dest: "{{ rainloop_path }}/data/_data_/_default_/domains/{{ item }}.ini"
-    owner: "{{ rainloop_user }}"
-    group: "{{ rainloop_group }}"
-    mode: "0644"
-  loop: "{{ rainloop_domains | default([rainloop_domain]) }}"
+- block:
+
+    - name: Update global settings
+      lineinfile:
+        path: "{{ rainloop_path }}/data/_data_/_default_/configs/application.ini"
+        line: >-
+          {% if item.value is search('^(On|Off)$') %}
+          {{ item.key }} = {{ item.value }}
+          {% else %}
+          {{ item.key }} = "{{ item.value }}"
+          {% endif %}
+        regexp: "^{{ item.key }} =.*"
+      loop: "{{ rainloop_settings | dict2items }}"
+
+    - name: Update domain settings
+      template:
+        src: "{{ rainloop_domain_template }}"
+        dest: "{{ rainloop_path }}/data/_data_/_default_/domains/{{ item }}.ini"
+        owner: "{{ rainloop_user }}"
+        group: "{{ rainloop_group }}"
+        mode: "0644"
+      loop: "{{ rainloop_domains | default([rainloop_domain]) }}"
+
+  when:  _app_ini.stat.exists
 
 - name: Remove temporary directory {{ rainloop_tmp }}
   file:
