@@ -12,9 +12,12 @@ Supported platforms
 
 - Red Hat Enterprise Linux 7<sup>1</sup>
 - Red Hat Enterprise Linux 8<sup>1</sup>
+- Red Hat Enterprise Linux 9<sup>1</sup>
 - CentOS 7
 - RockyLinux 8
-- AlmaLinux 8<sup>1</sup>
+- OracleLinux 8
+- AlmaLinux 8
+- AlmaLinux 9
 - Debian 10 (Buster)
 - Debian 11 (Bullseye)
 - Ubuntu 18.04 LTS
@@ -33,7 +36,7 @@ rainloop_url: 'https://www.rainloop.net/repository/webmail/rainloop-community-la
 # local file
 rainloop_file: '{{ rainloop_tmpdir }}/rainloop-community-latest.zip'
 
-# 
+# directory to put temporary download file into
 rainloop_tmpdir: /tmp
 
 # temporary directory
@@ -45,6 +48,12 @@ rainloop_group: "{{ 'apache' if rainloop_web_server == 'apache' else 'www-data' 
 
 # Restrict access to local loopback
 rainloop_restrict_access: false
+
+# dict of rainloop settings
+rainloop_settings: {}
+
+# Default domain template
+rainloop_domain_template: domain.j2
 </pre></code>
 
 ### vars/family-RedHat.yml
@@ -100,6 +109,7 @@ rainloop_php_socket: /var/run/php/php-fpm.sock
     nginx_root: /var/www/webmail.example.com/public_html
     nginx_logdir: /var/www/webmail.example.com/log
     rainloop_vhost: webmail.example.com
+    rainloop_domain: example.com
     rainloop_ssl_key: "{{ openssl_server_key }}"
     rainloop_ssl_crt: "{{ openssl_server_crt }}"
     rainloop_ssl_chain: "{{ openssl_server_crt }}"
