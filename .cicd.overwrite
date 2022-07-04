@@ -7,9 +7,6 @@ generic:
   role_description: |
     Manages rainloop
 
-github:
-  fail_fast: false
-
 molecule:
   converge:
     roles:
