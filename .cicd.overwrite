@@ -7,8 +7,13 @@ generic:
   role_description: |
     Manages rainloop
 
-github:
-  fail_fast: false
+platforms:
+  fedora35:
+    ci: false
+    supported: false
+  fedora36:
+    ci: false
+    supported: false
 
 molecule:
   converge:
@@ -48,7 +53,9 @@ molecule:
       rainloop_path: /var/www/webmail.example.com/public_html
       rainloop_log: /var/www/webmail.example.com/log
       rainloop_web_server: "{{ 'apache' if ansible_os_family == 'RedHat' else 'nginx' }}"
-
-ci_templates:
-  requirements.yml:
-    force: false
+  requirements:
+    roles_extra:
+      - apache
+      - nginx
+      - openssl
+      - php
