@@ -119,7 +119,8 @@
     path: "{{ rainloop_path }}/data/_data_/_default_/configs/application.ini"
   register: _app_ini
 
-- block:
+- name: Update settings
+  block:
 
     - name: Update global settings
       lineinfile:
