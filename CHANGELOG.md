@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.1.0...v1.2.0) (2022-07-28)
+
+
+### Features
+
+* Implement ansible-lint v6 support ([ea4eb87](https://github.com/de-it-krachten/ansible-role-rainloop/commit/ea4eb878c5a41090ef3027ae64fd623c60097552))
+
 # [1.1.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.0.0...v1.1.0) (2022-06-08)
 
 
