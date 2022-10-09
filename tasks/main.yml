@@ -1,13 +1,13 @@
 ---
 
 - name: Assertions
-  assert:
+  ansible.builtin.assert:
     that:
       - rainloop_path is defined
       - rainloop_log is defined
 
 - name: Load variables based on OS type
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
@@ -20,26 +20,27 @@
         - "vars"
 
 - name: Install packages
-  package:
+  ansible.builtin.package:
     name: "{{ rainloop_packages }}"
     state: present
 
 - name: Download the latest version
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ rainloop_url }}"
     dest: "{{ rainloop_file }}"
+    mode: "0644"
   check_mode: no
   changed_when: false
 
 - name: Delete temporary directory
-  file:
+  ansible.builtin.file:
     path: "{{ rainloop_tmp }}"
     state: absent
   check_mode: no
   changed_when: false
 
 - name: Create temporary extract directory
-  file:
+  ansible.builtin.file:
     path: "{{ rainloop_tmp }}"
     state: directory
     owner: "{{ rainloop_user }}"
@@ -49,7 +50,7 @@
   changed_when: false
 
 - name: Extract the software
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ rainloop_file }}"
     dest: "{{ rainloop_tmp }}"
     owner: "{{ rainloop_user }}"
@@ -60,7 +61,7 @@
   changed_when: false
 
 - name: Create rainloop directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ rainloop_user }}"
@@ -72,7 +73,7 @@
   tags: molecule-idempotence-notest
 
 - name: Rsync data
-  synchronize:
+  ansible.posix.synchronize:
     src: "{{ rainloop_tmp }}/"
     dest: "{{ rainloop_path }}"
     rsync_opts:
@@ -82,7 +83,7 @@
   tags: molecule-idempotence-notest
 
 - name: Set SELinux labels
-  sefcontext:
+  community.general.sefcontext:
     target: '{{ item.target }}'
     setype: '{{ item.setype }}'
     state: present
@@ -95,7 +96,7 @@
     - ansible_facts.selinux.status == 'enabled'
 
 - name: Configure rainloop using apache vhost
-  template:
+  ansible.builtin.template:
     src: templates/apache_vhost.conf.j2
     dest: "{{ apache_conf_dir }}/{{ rainloop_vhost }}.conf"
     owner: root
@@ -105,7 +106,7 @@
   when: rainloop_web_server == 'apache'
 
 - name: Configure rainloop using nginx vhost
-  template:
+  ansible.builtin.template:
     src: templates/nginx_vhost.conf.j2
     dest: "{{ nginx_confd_path }}/{{ rainloop_vhost }}.conf"
     owner: root
@@ -115,15 +116,16 @@
   when: rainloop_web_server == 'nginx'
 
 - name: Check if initial config is done
-  stat:
+  ansible.builtin.stat:
     path: "{{ rainloop_path }}/data/_data_/_default_/configs/application.ini"
   register: _app_ini
 
 - name: Update settings
+  when:  _app_ini.stat.exists
   block:
 
     - name: Update global settings
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: "{{ rainloop_path }}/data/_data_/_default_/configs/application.ini"
         line: >-
           {% if item.value is search('^(On|Off)$') %}
@@ -135,7 +137,7 @@
       loop: "{{ rainloop_settings | dict2items }}"
 
     - name: Update domain settings
-      template:
+      ansible.builtin.template:
         src: "{{ rainloop_domain_template }}"
         dest: "{{ rainloop_path }}/data/_data_/_default_/domains/{{ item }}.ini"
         owner: "{{ rainloop_user }}"
@@ -143,14 +145,12 @@
         mode: "0644"
       loop: "{{ rainloop_domains | default([rainloop_domain]) }}"
 
-  when:  _app_ini.stat.exists
-
 - name: Remove temporary directory {{ rainloop_tmp }}
-  file:
+  ansible.builtin.file:
     path: "{{ rainloop_tmp }}"
     state: absent
   check_mode: no
   changed_when: false
 
 - name: Force all handlers to run now
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
