@@ -1,13 +1,19 @@
 ---
 
-# archive url
-rainloop_url: 'https://www.rainloop.net/repository/webmail/rainloop-community-latest.zip'
+# product version
+rainloop_version: latest
 
-# local file
-rainloop_file: '{{ rainloop_tmpdir }}/rainloop-community-latest.zip'
+# release api
+rainloop_api: https://api.github.com/repos/RainLoop/rainloop-webmail/releases/latest
+
+# release url
+rainloop_url: https://github.com/RainLoop/rainloop-webmail/releases/download/v{{ rainloop_version }}/rainloop-legacy-{{ rainloop_version }}.zip
 
 # directory to put temporary download file into
 rainloop_tmpdir: /tmp
+
+# local file
+rainloop_file: '{{ rainloop_tmpdir }}/rainloop-community-latest.zip'
 
 # temporary directory
 rainloop_tmp: "{{ rainloop_tmpdir }}/rainloop-tmp"

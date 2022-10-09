@@ -19,6 +19,20 @@
       paths:
         - "vars"
 
+- name: Get version
+  when: rainloop_version == 'latest'
+  block:
+
+    - name: Get latest release of a public repository
+      ansible.builtin.uri:
+        url: "{{ rainloop_api }}"
+      check_mode: no
+      register: rainloop_release_latest
+
+    - name: Register the version only
+      ansible.builtin.set_fact:
+        rainloop_version: "{{ rainloop_release_latest['json']['name'] | regex_replace('^v') }}"
+
 - name: Install packages
   ansible.builtin.package:
     name: "{{ rainloop_packages }}"
@@ -121,7 +135,7 @@
   register: _app_ini
 
 - name: Update settings
-  when:  _app_ini.stat.exists
+  when: _app_ini.stat.exists
   block:
 
     - name: Update global settings
