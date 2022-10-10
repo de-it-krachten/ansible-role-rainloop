@@ -6,6 +6,17 @@
 Manages rainloop
 
 
+
+## Dependencies
+
+#### Roles
+None
+
+#### Collections
+- community.general
+- ansible.posix
+- community.general
+
 ## Platforms
 
 Supported platforms
@@ -31,14 +42,20 @@ Note:
 ## Role Variables
 ### defaults/main.yml
 <pre><code>
-# archive url
-rainloop_url: 'https://www.rainloop.net/repository/webmail/rainloop-community-latest.zip'
+# product version
+rainloop_version: latest
 
-# local file
-rainloop_file: '{{ rainloop_tmpdir }}/rainloop-community-latest.zip'
+# release api
+rainloop_api: https://api.github.com/repos/RainLoop/rainloop-webmail/releases/latest
+
+# release url
+rainloop_url: https://github.com/RainLoop/rainloop-webmail/releases/download/v{{ rainloop_version }}/rainloop-legacy-{{ rainloop_version }}.zip
 
 # directory to put temporary download file into
 rainloop_tmpdir: /tmp
+
+# local file
+rainloop_file: '{{ rainloop_tmpdir }}/rainloop-community-latest.zip'
 
 # temporary directory
 rainloop_tmp: "{{ rainloop_tmpdir }}/rainloop-tmp"
@@ -56,6 +73,7 @@ rainloop_settings: {}
 # Default domain template
 rainloop_domain_template: domain.j2
 </pre></code>
+
 
 ### vars/family-RedHat.yml
 <pre><code>
@@ -120,7 +138,7 @@ rainloop_php_socket: /var/run/php/php-fpm.sock
     rainloop_web_server: "{{ 'apache' if ansible_os_family == 'RedHat' else 'nginx' }}"
   pre_tasks:
     - name: Create 'remote_tmp'
-      file:
+      ansible.builtin.file:
         path: /root/.ansible/tmp
         state: directory
         mode: "0700"
@@ -131,6 +149,6 @@ rainloop_php_socket: /var/run/php/php-fpm.sock
     - php
   tasks:
     - name: Include role 'rainloop'
-      include_role:
+      ansible.builtin.include_role:
         name: rainloop
 </pre></code>
