@@ -24,7 +24,7 @@
     rainloop_web_server: "{{ 'apache' if ansible_os_family == 'RedHat' else 'nginx' }}"
   pre_tasks:
     - name: Create 'remote_tmp'
-      file:
+      ansible.builtin.file:
         path: /root/.ansible/tmp
         state: directory
         mode: "0700"
@@ -35,5 +35,5 @@
     - php
   tasks:
     - name: Include role 'ansible-role-rainloop'
-      include_role:
+      ansible.builtin.include_role:
         name: ansible-role-rainloop
