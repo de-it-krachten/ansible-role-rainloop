@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.2.0...v1.3.0) (2022-10-12)
+
+
+### Features
+
+* Move to FQCN ([4b3be45](https://github.com/de-it-krachten/ansible-role-rainloop/commit/4b3be4578c151cc75bfc2b4ba333edd6a81c3d75))
+* Update CI to latest standards ([a8d8401](https://github.com/de-it-krachten/ansible-role-rainloop/commit/a8d84010dcf702d0a189e5c6dc9cf6263674f5d2))
+
 # [1.2.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.1.0...v1.2.0) (2022-07-28)
 
 
