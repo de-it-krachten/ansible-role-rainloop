@@ -2,7 +2,7 @@
 
 - name: Converge
   hosts: all
-  become: "{{ molecule['converge']['become'] | default('yes') }}"
+  become: "yes"
   vars:
     openssl_fqdn: server.example.com
     apache_fqdn: "{{ openssl_fqdn }}"
@@ -22,12 +22,6 @@
     rainloop_path: /var/www/webmail.example.com/public_html
     rainloop_log: /var/www/webmail.example.com/log
     rainloop_web_server: "{{ 'apache' if ansible_os_family == 'RedHat' else 'nginx' }}"
-  pre_tasks:
-    - name: Create 'remote_tmp'
-      ansible.builtin.file:
-        path: /root/.ansible/tmp
-        state: directory
-        mode: "0700"
   roles:
     - openssl
     - {'role': 'apache', 'when': "ansible_os_family == 'RedHat'"}

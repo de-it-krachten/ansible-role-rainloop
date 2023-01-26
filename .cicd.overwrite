@@ -8,10 +8,10 @@ generic:
     Manages rainloop
 
 platforms:
-  fedora35:
+  fedora36:
     ci: false
     supported: false
-  fedora36:
+  fedora37:
     ci: false
     supported: false
 
