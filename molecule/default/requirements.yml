@@ -41,19 +41,19 @@ roles:
     src: https://github.com/de-it-krachten/ansible-role-unbound.git
     version: main
     scm: git
-  - name: apache
+  - name: deitkrachten.apache
     src: https://github.com/de-it-krachten/ansible-role-apache.git
     version: main
     scm: git
-  - name: nginx
+  - name: deitkrachten.nginx
     src: https://github.com/de-it-krachten/ansible-role-nginx.git
     version: main
     scm: git
-  - name: openssl
+  - name: deitkrachten.openssl
     src: https://github.com/de-it-krachten/ansible-role-openssl.git
     version: main
     scm: git
-  - name: php
+  - name: deitkrachten.php
     src: https://github.com/de-it-krachten/ansible-role-php.git
     version: main
     scm: git

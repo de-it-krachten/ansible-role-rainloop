@@ -137,10 +137,10 @@ rainloop_php_socket: /var/run/php/php-fpm.sock
     rainloop_log: /var/www/webmail.example.com/log
     rainloop_web_server: "{{ 'apache' if ansible_os_family == 'RedHat' else 'nginx' }}"
   roles:
-    - openssl
-    - {'role': 'apache', 'when': "ansible_os_family == 'RedHat'"}
-    - {'role': 'nginx', 'when': "ansible_os_family == 'Debian'"}
-    - php
+    - deitkrachten.openssl
+    - {'role': 'deitkrachten.apache', 'when': "ansible_os_family == 'RedHat'"}
+    - {'role': 'deitkrachten.nginx', 'when': "ansible_os_family == 'Debian'"}
+    - deitkrachten.php
   tasks:
     - name: Include role 'rainloop'
       ansible.builtin.include_role:

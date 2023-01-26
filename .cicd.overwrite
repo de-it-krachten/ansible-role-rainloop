@@ -18,10 +18,10 @@ platforms:
 molecule:
   converge:
     roles:
-      - openssl
-      - { role: apache, when: ansible_os_family == 'RedHat' }
-      - { role: nginx, when: ansible_os_family == 'Debian' }
-      - php
+      - deitkrachten.openssl
+      - { role: deitkrachten.apache, when: ansible_os_family == 'RedHat' }
+      - { role: deitkrachten.nginx, when: ansible_os_family == 'Debian' }
+      - deitkrachten.php
     vars:
       openssl_fqdn: server.example.com
       apache_fqdn: "{{ openssl_fqdn }}"
@@ -55,7 +55,7 @@ molecule:
       rainloop_web_server: "{{ 'apache' if ansible_os_family == 'RedHat' else 'nginx' }}"
   requirements:
     roles_extra:
-      - apache
-      - nginx
-      - openssl
-      - php
+      - deitkrachten.apache
+      - deitkrachten.nginx
+      - deitkrachten.openssl
+      - deitkrachten.php
