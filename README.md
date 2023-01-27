@@ -15,7 +15,6 @@ None
 #### Collections
 - community.general
 - ansible.posix
-- community.general
 
 ## Platforms
 
@@ -28,6 +27,7 @@ Supported platforms
 - RockyLinux 8
 - RockyLinux 9
 - OracleLinux 8
+- OracleLinux 9
 - AlmaLinux 8
 - AlmaLinux 9
 - Debian 10 (Buster)
@@ -116,7 +116,7 @@ rainloop_php_socket: /var/run/php/php-fpm.sock
 <pre><code>
 - name: sample playbook for role 'rainloop'
   hosts: all
-  become: "{{ molecule['converge']['become'] | default('yes') }}"
+  become: "yes"
   vars:
     openssl_fqdn: server.example.com
     apache_fqdn: "{{ openssl_fqdn }}"
@@ -136,17 +136,11 @@ rainloop_php_socket: /var/run/php/php-fpm.sock
     rainloop_path: /var/www/webmail.example.com/public_html
     rainloop_log: /var/www/webmail.example.com/log
     rainloop_web_server: "{{ 'apache' if ansible_os_family == 'RedHat' else 'nginx' }}"
-  pre_tasks:
-    - name: Create 'remote_tmp'
-      ansible.builtin.file:
-        path: /root/.ansible/tmp
-        state: directory
-        mode: "0700"
   roles:
-    - openssl
-    - {'role': 'apache', 'when': "ansible_os_family == 'RedHat'"}
-    - {'role': 'nginx', 'when': "ansible_os_family == 'Debian'"}
-    - php
+    - deitkrachten.openssl
+    - {'role': 'deitkrachten.apache', 'when': "ansible_os_family == 'RedHat'"}
+    - {'role': 'deitkrachten.nginx', 'when': "ansible_os_family == 'Debian'"}
+    - deitkrachten.php
   tasks:
     - name: Include role 'rainloop'
       ansible.builtin.include_role:
