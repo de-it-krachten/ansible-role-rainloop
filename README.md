@@ -75,23 +75,6 @@ rainloop_domain_template: domain.j2
 </pre></code>
 
 
-### vars/family-RedHat.yml
-<pre><code>
-# list of packages
-rainloop_packages:
-  - unzip
-  - rsync
-
-# default web service
-rainloop_web_server: apache
-
-# web service
-rainloop_web_service: "{{ 'httpd' if rainloop_web_server == 'apache' else 'nginx' }}"
-
-# php socket
-rainloop_php_socket: /var/run/php/php-fpm.sock
-</pre></code>
-
 ### vars/family-Debian.yml
 <pre><code>
 # list of packages
@@ -104,6 +87,23 @@ rainloop_web_server: nginx
 
 # web service
 rainloop_web_service: "{{ 'apache2' if rainloop_web_server == 'apache' else 'nginx' }}"
+
+# php socket
+rainloop_php_socket: /var/run/php/php-fpm.sock
+</pre></code>
+
+### vars/family-RedHat.yml
+<pre><code>
+# list of packages
+rainloop_packages:
+  - unzip
+  - rsync
+
+# default web service
+rainloop_web_server: apache
+
+# web service
+rainloop_web_service: "{{ 'httpd' if rainloop_web_server == 'apache' else 'nginx' }}"
 
 # php socket
 rainloop_php_socket: /var/run/php/php-fpm.sock
