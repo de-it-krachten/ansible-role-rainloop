@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.3.0...v1.4.0) (2023-05-08)
+
+
+### Features
+
+* Move to namespaced role names ([f5173ad](https://github.com/de-it-krachten/ansible-role-rainloop/commit/f5173adc27bfa06c4525c29f810ff7ddbd09083f))
+
 # [1.3.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.2.0...v1.3.0) (2022-10-12)
 
 
