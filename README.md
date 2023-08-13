@@ -30,9 +30,9 @@ Supported platforms
 - OracleLinux 9
 - AlmaLinux 8
 - AlmaLinux 9
-- Debian 10 (Buster)
+- Debian 10 (Buster)<sup>1</sup>
 - Debian 11 (Bullseye)
-- Ubuntu 18.04 LTS
+- Debian 12 (Bookworm)
 - Ubuntu 20.04 LTS
 - Ubuntu 22.04 LTS
 
@@ -74,8 +74,7 @@ rainloop_settings: {}
 rainloop_domain_template: domain.j2
 </pre></code>
 
-
-### vars/family-Debian.yml
+### defaults/family-Debian.yml
 <pre><code>
 # list of packages
 rainloop_packages:
@@ -92,7 +91,7 @@ rainloop_web_service: "{{ 'apache2' if rainloop_web_server == 'apache' else 'ngi
 rainloop_php_socket: /var/run/php/php-fpm.sock
 </pre></code>
 
-### vars/family-RedHat.yml
+### defaults/family-RedHat.yml
 <pre><code>
 # list of packages
 rainloop_packages:
@@ -108,6 +107,7 @@ rainloop_web_service: "{{ 'httpd' if rainloop_web_server == 'apache' else 'nginx
 # php socket
 rainloop_php_socket: /var/run/php/php-fpm.sock
 </pre></code>
+
 
 
 
