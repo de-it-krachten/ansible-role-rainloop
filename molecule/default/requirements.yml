@@ -1,6 +1,10 @@
 ---
 
 roles:
+  - name: deitkrachten.docker
+    src: https://github.com/de-it-krachten/ansible-role-docker.git
+    version: main
+    scm: git
   - name: deitkrachten.epel
     src: https://github.com/de-it-krachten/ansible-role-epel.git
     version: main
@@ -47,7 +51,7 @@ roles:
     scm: git
   - name: deitkrachten.apache
     src: https://github.com/de-it-krachten/ansible-role-apache.git
-    version: dev
+    version: main
     scm: git
   - name: deitkrachten.nginx
     src: https://github.com/de-it-krachten/ansible-role-nginx.git
@@ -59,5 +63,5 @@ roles:
     scm: git
   - name: deitkrachten.php
     src: https://github.com/de-it-krachten/ansible-role-php.git
-    version: dev
+    version: main
     scm: git

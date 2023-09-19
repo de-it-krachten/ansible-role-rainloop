@@ -8,10 +8,16 @@ generic:
     Manages rainloop
 
 platforms:
-  fedora36:
+  opensuse15:
+    ci: false
+    supported: false
+  sles15:
     ci: false
     supported: false
   fedora37:
+    ci: false
+    supported: false
+  fedora38:
     ci: false
     supported: false
 
