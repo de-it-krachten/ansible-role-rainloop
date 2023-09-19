@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.4.0...v1.5.0) (2023-09-19)
+
+
+### Features
+
+* Update supported platforms & CI ([ae5fa32](https://github.com/de-it-krachten/ansible-role-rainloop/commit/ae5fa329886109a21635713bac544684fb3e3f5d))
+
 # [1.4.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.3.0...v1.4.0) (2023-05-08)
 
 
