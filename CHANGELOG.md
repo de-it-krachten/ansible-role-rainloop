@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.5.0...v1.6.0) (2024-06-03)
+
+
+### Features
+
+* Add support for Ubuntu 24.04 LTS + Fedora 40 ([927d501](https://github.com/de-it-krachten/ansible-role-rainloop/commit/927d50196a26987df8ebe039d45beea9c3cf32af))
+
 # [1.5.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.4.0...v1.5.0) (2023-09-19)
 
 
