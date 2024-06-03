@@ -13,8 +13,8 @@ Manages rainloop
 None
 
 #### Collections
-- community.general
 - ansible.posix
+- community.general
 
 ## Platforms
 
@@ -30,11 +30,11 @@ Supported platforms
 - OracleLinux 9
 - AlmaLinux 8
 - AlmaLinux 9
-- Debian 10 (Buster)<sup>1</sup>
 - Debian 11 (Bullseye)
 - Debian 12 (Bookworm)
 - Ubuntu 20.04 LTS
 - Ubuntu 22.04 LTS
+- Ubuntu 24.04 LTS
 
 Note:
 <sup>1</sup> : no automated testing is performed on these platforms
@@ -116,30 +116,33 @@ rainloop_php_socket: /var/run/php/php-fpm.sock
 <pre><code>
 - name: sample playbook for role 'rainloop'
   hosts: all
-  become: "yes"
+  become: 'yes'
   vars:
     openssl_fqdn: server.example.com
-    apache_fqdn: "{{ openssl_fqdn }}"
-    apache_ssl_key: "{{ openssl_server_key }}"
-    apache_ssl_crt: "{{ openssl_server_crt }}"
-    apache_ssl_chain: "{{ openssl_server_crt }}"
+    apache_fqdn: '{{ openssl_fqdn }}'
+    apache_ssl_key: '{{ openssl_server_key }}'
+    apache_ssl_crt: '{{ openssl_server_crt }}'
+    apache_ssl_chain: '{{ openssl_server_crt }}'
     nginx_server_name: webmail.example.com
-    nginx_ssl_key: "{{ openssl_server_key }}"
-    nginx_ssl_crt: "{{ openssl_server_crt }}"
+    nginx_ssl_key: '{{ openssl_server_key }}'
+    nginx_ssl_crt: '{{ openssl_server_crt }}'
     nginx_root: /var/www/webmail.example.com/public_html
     nginx_logdir: /var/www/webmail.example.com/log
     rainloop_vhost: webmail.example.com
     rainloop_domain: example.com
-    rainloop_ssl_key: "{{ openssl_server_key }}"
-    rainloop_ssl_crt: "{{ openssl_server_crt }}"
-    rainloop_ssl_chain: "{{ openssl_server_crt }}"
+    rainloop_ssl_key: '{{ openssl_server_key }}'
+    rainloop_ssl_crt: '{{ openssl_server_crt }}'
+    rainloop_ssl_chain: '{{ openssl_server_crt }}'
     rainloop_path: /var/www/webmail.example.com/public_html
     rainloop_log: /var/www/webmail.example.com/log
-    rainloop_web_server: "{{ 'apache' if ansible_os_family == 'RedHat' else 'nginx' }}"
+    rainloop_web_server: '{{ ''apache'' if ansible_os_family == ''RedHat'' else ''nginx''
+      }}'
   roles:
     - deitkrachten.openssl
-    - {'role': 'deitkrachten.apache', 'when': "ansible_os_family == 'RedHat'"}
-    - {'role': 'deitkrachten.nginx', 'when': "ansible_os_family == 'Debian'"}
+    - role: deitkrachten.apache
+      when: ansible_os_family == 'RedHat'
+    - role: deitkrachten.nginx
+      when: ansible_os_family == 'Debian'
     - deitkrachten.php
   tasks:
     - name: Include role 'rainloop'
