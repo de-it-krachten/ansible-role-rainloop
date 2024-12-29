@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.6.0...v1.7.0) (2024-12-29)
+
+
+### Features
+
+* Update supported platforms & CI ([70b0bf3](https://github.com/de-it-krachten/ansible-role-rainloop/commit/70b0bf3206216dcfac77ed42a86dd5b0d393ed3f))
+
 # [1.6.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.5.0...v1.6.0) (2024-06-03)
 
 
