@@ -1,3 +1,14 @@
+# [1.8.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.7.0...v1.8.0) (2025-08-07)
+
+
+### Features
+
+* Add support for AlmaLinux 10 ([7196ca3](https://github.com/de-it-krachten/ansible-role-rainloop/commit/7196ca3b6a03b09380a8cb5325555d26bd27b2c6))
+* Add support for Debian 13 (Trixie) ([b887e40](https://github.com/de-it-krachten/ansible-role-rainloop/commit/b887e40957535685822d3727039105835e51b161))
+* Add support for OracleLinux 10 ([d84f7fb](https://github.com/de-it-krachten/ansible-role-rainloop/commit/d84f7fbffc82e5262cdee806e06c93ee520f6c4a))
+* Add support for Red Hat Enterprise Linux 10 ([e41825a](https://github.com/de-it-krachten/ansible-role-rainloop/commit/e41825a9484c8e31ed072fd4667fd0bbc02c4025))
+* Add support for RockyLinux 10 ([c674ccb](https://github.com/de-it-krachten/ansible-role-rainloop/commit/c674ccb2cccb6fc19a9fa52ba9162f353ba85d70))
+
 # [1.7.0](https://github.com/de-it-krachten/ansible-role-rainloop/compare/v1.6.0...v1.7.0) (2024-12-29)
 
 
