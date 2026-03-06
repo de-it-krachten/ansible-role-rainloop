@@ -42,6 +42,7 @@ Supported platforms
 Note:
 <sup>1</sup> : no automated testing is performed on these platforms
 
+
 ## Role Variables
 ### defaults/main.yml
 <pre><code>
@@ -121,6 +122,7 @@ rainloop_php_socket: /var/run/php/php-fpm.sock
   hosts: all
   become: 'yes'
   vars:
+    molecule_driver: '{{ lookup(''env'', ''MOLECULE_DRIVER_NAME'') }}'
     openssl_fqdn: server.example.com
     apache_fqdn: '{{ openssl_fqdn }}'
     apache_ssl_key: '{{ openssl_server_key }}'
