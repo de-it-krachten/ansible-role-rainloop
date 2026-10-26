@@ -34,9 +34,9 @@ platforms:
 {% for platform in MOLECULE_DISTROS %}
   - name: rainloop-{{ platform.name }}-node1
     image: "{{ platform.image }}"
-{% if platform.cap_add is defined %}
-    cap_add:
-{% for cap in platform.cap_add %}
+{% if platform.capabilities is defined %}
+    capabilities:
+{% for cap in platform.capabilities %}
       - {{ cap }}
 {% endfor %}
 {% endif %}
@@ -46,10 +46,10 @@ platforms:
 {% if platform.memory is defined %}
     memory: {{ platform.memory }}
 {% endif %}
-    rhsm: {{ platform.rhsm | default(False) }}
+    # rhsm: {{ platform.rhsm | default(False) }}
     command: ${MOLECULE_DOCKER_COMMAND:-""}
 {% if platform.environment is defined %}
-    environment:
+    env:
 {% for key, value in platform.environment.items() %}
       {{ key }}: "{{ value }}"
 {% endfor %}
@@ -74,6 +74,7 @@ platforms:
     cgroupns_mode: {{ platform.cgroupns_mode }}
 {% endif %}
     privileged: {{ platform.privileged | default(True) }}
+    capabilities: {{ platform.capabilities | default([]) }}
     pre_build_image: {{ platform.pre_build_image | default(True) }}
     dockerfile: Dockerfile.{{ platform.name }}.j2
 {% endfor %}
